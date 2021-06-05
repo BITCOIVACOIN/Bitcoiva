@@ -1,0 +1,17 @@
+[Unit]
+Description=bitcoivad
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+Restart=on-failure
+User=bitcoivad
+Group=bitcoivad
+PermissionsStartOnly=true
+ExecStart=/usr/bin/bitcoivad start
+ExecReload=/bin/kill -HUP $MAINPID
+KillSignal=SIGTERM
+
+[Install]
+WantedBy=multi-user.target
+

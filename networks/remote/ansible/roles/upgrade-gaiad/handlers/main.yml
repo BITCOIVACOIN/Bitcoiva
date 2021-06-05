@@ -1,0 +1,5 @@
+---
+
+- name: restart bitcoivad
+  service: name=bitcoivad state=restarted
+

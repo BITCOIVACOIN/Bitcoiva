@@ -1,0 +1,29 @@
+---
+
+- name: Copy binary
+  copy:
+    src: "{{BINARY}}"
+    dest: /usr/bin/bitcoivad
+    mode: 0755
+  notify: restart bitcoivad
+
+- name: Copy new genesis.json file, if available
+  when: "GENESISFILE is defined and GENESISFILE != ''" 
+  copy:
+    src: "{{GENESISFILE}}"
+    dest: /home/bitcoivad/.bitcoivad/config/genesis.json
+  notify: restart bitcoivad
+
+- name: Download genesis.json URL, if available
+  when: "GENESISURL is defined and GENESISURL != ''"
+  get_url:
+    url: "{{GENESISURL}}"
+    dest: /home/bitcoivad/.bitcoivad/config/genesis.json
+    force: yes
+  notify: restart bitcoivad
+
+- name: Reset network
+  when: UNSAFE_RESET_ALL | default(false) | bool
+  command: "sudo -u bitcoivad bitcoivad unsafe-reset-all"
+  notify: restart bitcoivad
+

@@ -1,0 +1,17 @@
+[Unit]
+Description=bitcoivacli
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+Restart=on-failure
+User=bitcoivad
+Group=bitcoivad
+PermissionsStartOnly=true
+ExecStart=/usr/bin/bitcoivacli rest-server --laddr {{BITCOIVACLI_ADDRESS}}
+ExecReload=/bin/kill -HUP $MAINPID
+KillSignal=SIGTERM
+
+[Install]
+WantedBy=multi-user.target
+

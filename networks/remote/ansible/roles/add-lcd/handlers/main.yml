@@ -1,0 +1,9 @@
+---
+
+- name: systemctl
+  systemd: name=bitcoivacli enabled=yes daemon_reload=yes
+
+- name: restart bitcoivacli
+  service: name=bitcoivacli state=restarted
+
+
